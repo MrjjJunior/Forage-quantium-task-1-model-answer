@@ -65,7 +65,11 @@ def filter(data):
         
             for line in csv_reader:
                 if "pink morsel" in line:
-                    csv_writer.writerow(line)
+                    if "$" in line[1]:
+                        line[1] = line[1].replace("$", "")
+                        sale = f"${float(line[1]) * float(line[2]):.2f}"
+                        output = sale, line[3], line[4]
+                        csv_writer.writerow(output)
 
 def open_history():
     with open('history_pink_morsel.csv', mode="r") as file:
