@@ -10,7 +10,7 @@ html: HTML components
 dataframe = pd.read_csv('history_pink_morsel.csv')
 
 def filter_region(file_name):
-    with open('combined.csv', mode='r') as file:
+    with open('history_pink_morsel.csv', mode='r') as file:
         csv_reader = csv.reader(file)
         
         with open(file_name + '.csv', mode="w") as east_file:
@@ -33,7 +33,7 @@ app.layout = [  # components are displayed in here, they are provided as a list
     html.Hr(), # horizontal line
     dash_table.DataTable(data=dataframe.to_dict('records'), page_size=10),
     html.Hr(),
-    dcc.RadioItems(options=['sale','east'], value='sale', id='controls-and-radio-item', style={'textAlign': 'center'}),
+    dcc.RadioItems(options=['sale','east', 'west', 'north', 'south'], value='sale', id='controls-and-radio-item', style={'textAlign': 'center'}),
 
     #dcc.Graph(figure=px.line(dataframe, x='date', y='sale', title='Pink Morsel Sales Over Time')), 
     dcc.Graph(figure={}, id='controls-and-graph')
@@ -44,7 +44,12 @@ app.layout = [  # components are displayed in here, they are provided as a list
     Input(component_id='controls-and-radio-item', component_property='value')
 )
 
+
 def update_graph(col_chosen):
+    region = ""
+#    if col_chosen == 'east':
+#        for row in "history_pink_morsel.csv":
+
     fig = px.line(dataframe, x='date', y=col_chosen, title='Pink Morsel Sales Over Time')
     return fig
 
